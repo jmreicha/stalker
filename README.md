@@ -2,6 +2,8 @@
 
 Get notified when your favorite projects and software get updated.
 
+### Add repo's
+
 To get started, either move `config.json.example` to `config.json` and
 update with values to test.
 
@@ -16,6 +18,8 @@ update with values to test.
 
 Add any repo's you'd like to follow to this section of the config file.
 
+### Set up starred repo's
+
 There is an option to look at version of starred repo's, rather than reading directly from the configuration file.  To enable this option you will need to set a user in the `config.json` file.
 
 ```json
@@ -23,6 +27,8 @@ There is an option to look at version of starred repo's, rather than reading dir
   "User": "jmreicha"
 }
 ```
+
+### Using an auth token
 
 To avoid throttling issues you will need to add your own github auth token in
 the `Token:` section.
