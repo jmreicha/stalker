@@ -28,7 +28,7 @@ There is an option to look at version of starred repo's, rather than reading dir
 }
 ```
 
-### Using an auth token
+### Use an auth token
 
 To avoid throttling issues you will need to add your own github auth token in
 the `Token:` section.
