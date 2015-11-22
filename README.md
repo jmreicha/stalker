@@ -2,7 +2,7 @@
 
 Get notified when your favorite projects and software get updated.
 
-To get started, either move or copy `config.json.example` to `config.json` and
+To get started, either move `config.json.example` to `config.json` and
 update with values to test.
 
 ```json
