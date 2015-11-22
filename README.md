@@ -4,8 +4,8 @@ Get notified when your favorite projects and software get updated.
 
 ### Add some repo's
 
-To get started, either move `config.json.example` to `config.json` and
-update with values to test.
+To get started, move `config.json.example` to `config.json` and
+update it with some values to test.
 
 ```json
 {
