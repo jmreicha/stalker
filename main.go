@@ -2,8 +2,8 @@ package main
 
 func main() {
 
-	PrintStarredRepos()
-	//PrintFromConfig()
+	//PrintStarredRepos()
+	PrintFromConfig()
 
 	/* Testing functions
 	GetToken()							// Helper function to list api token
