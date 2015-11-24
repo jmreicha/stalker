@@ -49,7 +49,6 @@ func GetToken() string {
 // This function will try to print versions of repo's that have been starred,
 // according to the configuration read in from the config file
 func PrintStarredRepos() {
-
 	configuration := ReadConfig()
 
 	username := configuration.User
@@ -65,7 +64,6 @@ func PrintStarredRepos() {
 }
 
 func PrintFromConfig() {
-
 	configuration := ReadConfig()
 
 	// Split user and project in order to parse them separately
@@ -78,8 +76,8 @@ func PrintFromConfig() {
 			fmt.Println("User: " + user + " Project: " + project + " Tag: " + tag)
 
 			// TODO
-			// Store latest version retrieved here in BoltDB so we can see if there is a new version
-			// Notify us if there is a new version email the repo, version, link to the changelog and the changelog notes
+			// Notify if there is a new version and email the repo, version,
+			// link to the changelog and the changelog notes
 		}
 	}
 }

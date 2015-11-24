@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/boltdb/bolt"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
 )
@@ -136,59 +135,8 @@ func GetStarredRepos(user string) []string {
 		fmt.Printf("error: %v\n", err)
 	} else {
 		for _, repo := range starredRepos {
-			//fmt.Printf("%+v\n", *repo.Repository.FullName)
 			userStars = append(userStars, *repo.Repository.FullName)
 		}
 	}
 	return userStars
-}
-
-// Get latest release for single repo (this function is primarily for testing)
-func WriteVersion() {
-
-	client := github.NewClient(nil)
-	latest, _, err := client.Repositories.GetLatestRelease("hashicorp", "terraform")
-
-	// Open the DB
-	db, err := bolt.Open("version.db", 0600, nil)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-	}
-	// Close DB
-	defer db.Close()
-
-	// Create version bucket
-	db.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucket([]byte("Version"))
-		if err != nil {
-			return fmt.Errorf("create bucket: %s", err)
-		}
-		return nil
-	})
-
-	// Create Repo bucket
-	db.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucket([]byte("Repo"))
-		if err != nil {
-			return fmt.Errorf("create bucket: %s", err)
-		}
-		return nil
-	})
-
-	// Write repo version
-	db.Update(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("MyBucket"))
-		//err := b.Put([]byte("answer"), []byte(github.Stringify(latest)))
-		err := b.Put([]byte("version"), []byte(*latest.TagName))
-		return err
-	})
-
-	// Print repo version
-	db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("MyBucket"))
-		v := b.Get([]byte("answer"))
-		fmt.Printf("Terraform version: %s\n", v)
-		return nil
-	})
-
 }

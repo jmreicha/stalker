@@ -5,6 +5,8 @@ func main() {
 	PrintStarredRepos()
 	//PrintFromConfig()
 
+	//UpdateStarredRepos()
+	IterateStarredRepos()
 	/* Testing functions
 	GetToken()							// Helper function to list api token
 	RecentTags()						// Function to list paged results of recent tags
