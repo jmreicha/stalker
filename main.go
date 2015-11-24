@@ -2,8 +2,8 @@ package main
 
 func main() {
 
-	PrintStarredRepos()
-	//PrintFromConfig()
+	//PrintStarredRepos()
+	PrintFromConfig()
 
 	//UpdateStarredRepos()
 	IterateStarredRepos()
