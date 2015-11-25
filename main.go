@@ -6,11 +6,11 @@ import (
 
 func main() {
 
-	//util.PrintStarredRepos()
+	util.PrintStarredRepos()
 	//util.PrintFromConfig()
 
-	util.UpdateStarredRepos()
-	util.IterateStarredRepos()
+	//util.UpdateStarredRepos()
+	//util.IterateStarredRepos()
 	/* Testing functions
 	GetToken()							// Helper function to list api token
 	RecentTags()						// Function to list paged results of recent tags
