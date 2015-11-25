@@ -18,7 +18,8 @@ type Configuration struct {
 
 // ReadConfig is a helper fucntion for reading in a configuration file.
 func ReadConfig() *Configuration {
-	file, _ := os.Open("config.json")
+	homedir := os.Getenv("HOME")
+	file, _ := os.Open(homedir + "/.stalker.json")
 	decoder := json.NewDecoder(file)
 	configuration := Configuration{}
 	err := decoder.Decode(&configuration)

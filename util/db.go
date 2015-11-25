@@ -3,11 +3,13 @@ package util
 import (
 	"fmt"
 	"github.com/boltdb/bolt"
+	"os"
 	"strings"
 )
 
 // Bolt DB settings
-var DBName string = "version.db"
+var homedir = os.Getenv("HOME")
+var DBName string = homedir + "/version.db"
 var CustomProjectBucket string = "CustomProject"
 var StarredProjectBucket string = "StarredProject"
 
