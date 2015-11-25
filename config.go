@@ -8,14 +8,15 @@ import (
 	"strings"
 )
 
-// Use this stuct to read in repos and software projects
+// Configuration is a  stuct to read in repos and software projects from an
+// external configuration file.
 type Configuration struct {
 	Repos []string
 	Token string
 	User  string
 }
 
-// Read a config file
+// ReadConfi is a helper for reading in a configuration file.
 func ReadConfig() *Configuration {
 	file, _ := os.Open("config.json")
 	decoder := json.NewDecoder(file)
@@ -28,7 +29,7 @@ func ReadConfig() *Configuration {
 	return &configuration
 }
 
-// Manage the github auth token
+// GetToken is a helper for determining if a Github auth token has been set.
 func GetToken() string {
 	configuration := ReadConfig()
 	token := configuration.Token
@@ -46,8 +47,9 @@ func GetToken() string {
 	}
 }
 
-// This function will try to print versions of repo's that have been starred,
-// according to the configuration read in from the config file
+// PrintStarredRepos tries to print tags of repo's that have been starred
+// according to the "user" configuration setting that is read in from the
+// config file.
 func PrintStarredRepos() {
 	configuration := ReadConfig()
 
@@ -63,6 +65,8 @@ func PrintStarredRepos() {
 	}
 }
 
+// PrintFromConfig tries to print versions based on repo's that have been read
+// in from a config file.
 func PrintFromConfig() {
 	configuration := ReadConfig()
 

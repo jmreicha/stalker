@@ -11,6 +11,8 @@ var DBName string = "version.db"
 var CustomProjectBucket string = "CustomProject"
 var StarredProjectBucket string = "StarredProject"
 
+// UpdateCustomRepos reads in a configuration file, and writes projects and
+// their tags to BoltDB.
 func UpdateCustomRepos() {
 	// Open DB
 	db, err := bolt.Open(DBName, 0600, nil)
@@ -39,7 +41,7 @@ func UpdateCustomRepos() {
 			project := repo[len(repo)-1]
 			tag, _ := LatestTag(user, project)
 
-			// Write project
+			// Write project to bucket
 			db.Update(func(tx *bolt.Tx) error {
 				b := tx.Bucket([]byte(CustomProjectBucket))
 				// key=project value=tag
@@ -50,6 +52,8 @@ func UpdateCustomRepos() {
 	}
 }
 
+// IterateCustomRepos looks at what is in BoltDB and prints out the project and
+// tag based on custom repo's that have been configured.
 func IterateCustomRepos() {
 
 	// Open DB
@@ -73,6 +77,8 @@ func IterateCustomRepos() {
 	})
 }
 
+// UpdateStarredRepos reads starred repo's for a user and writes projects and
+// their tags to BoltDB.
 func UpdateStarredRepos() {
 	// Open DB
 	db, err := bolt.Open(DBName, 0600, nil)
@@ -112,6 +118,8 @@ func UpdateStarredRepos() {
 	}
 }
 
+// IterateStarredRepos looks at what is in BoltDB and prints out the project and
+// tag based on if starred repo's configuration is set.
 func IterateStarredRepos() {
 
 	// Open DB

@@ -8,7 +8,7 @@ import (
 
 var TOKEN string = GetToken()
 
-// List last 10 releases for single repo
+// RecentTags print the last 10 releases for a single repo.
 func RecentTags(user, project string) {
 
 	var client *github.Client
@@ -34,6 +34,7 @@ func RecentTags(user, project string) {
 
 }
 
+// TestLatestTag prints the latest tag for a given user and project.
 func TestLatestTag(user, project string) {
 
 	var client *github.Client
@@ -62,7 +63,8 @@ func TestLatestTag(user, project string) {
 	}
 }
 
-// Get latest tag (VERSION WILL FAIL SILENTLY if rate limit has been exceeded)
+// LatesTag returns the latest tag for a given user and project (VERSION WILL
+// FAIL SILENTLY if rate limit has been exceeded).
 func LatestTag(user, project string) (string, error) {
 
 	var client *github.Client
@@ -92,7 +94,7 @@ func LatestTag(user, project string) (string, error) {
 	}
 }
 
-// Only get latest release
+// LatestRelease prints the latest release for a given user and project.
 func LatestRelease(user, project string) {
 
 	var client *github.Client
@@ -115,7 +117,7 @@ func LatestRelease(user, project string) {
 	//return *repo.TagName
 }
 
-// List the name of starred repo's for a user
+// GetStarredRepos returns the name of starred repo's for a given user.
 func GetStarredRepos(user string) []string {
 
 	var client *github.Client
