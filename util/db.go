@@ -100,6 +100,7 @@ func UpdateStarredRepos() {
 	})
 
 	configuration := ReadConfig()
+
 	username := configuration.User
 	userRepos := GetStarredRepos(username)
 

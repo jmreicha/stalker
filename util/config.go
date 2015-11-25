@@ -16,26 +16,33 @@ type Configuration struct {
 	User  string
 }
 
-// ReadConfig is a helper fucntion for reading in a configuration file.
+// ReadConfig is a helper function for reading in a configuration file.
 func ReadConfig() *Configuration {
 	homedir := os.Getenv("HOME")
-	file, _ := os.Open(homedir + "/.stalker.json")
+	configpath := (homedir + "/.stalker.json")
+	file, _ := os.Open(configpath)
+	// Stop execution if config isn't found
+	if _, err := os.Stat(configpath); os.IsNotExist(err) {
+		fmt.Println("Config " + configpath + " not found!")
+		os.Exit(0)
+	}
+	// Decode json config
 	decoder := json.NewDecoder(file)
 	configuration := Configuration{}
 	err := decoder.Decode(&configuration)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
-
 	return &configuration
 }
 
 // GetToken is a helper function for determining if a Github auth token has been
 // set.
 func GetToken() string {
-	configuration := ReadConfig()
-	token := configuration.Token
 
+	configuration := ReadConfig()
+
+	token := configuration.Token
 	warn := color.New(color.FgYellow).PrintFunc()
 	tokenSet := color.New(color.FgGreen).PrintFunc()
 
