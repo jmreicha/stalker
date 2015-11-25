@@ -1,12 +1,16 @@
 package main
 
+import (
+	"github.com/jmreicha/stalker/util"
+)
+
 func main() {
 
-	//PrintStarredRepos()
-	PrintFromConfig()
+	//util.PrintStarredRepos()
+	//util.PrintFromConfig()
 
-	//UpdateStarredRepos()
-	//IterateStarredRepos()
+	util.UpdateStarredRepos()
+	util.IterateStarredRepos()
 	/* Testing functions
 	GetToken()							// Helper function to list api token
 	RecentTags()						// Function to list paged results of recent tags
