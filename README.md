@@ -2,10 +2,21 @@
 
 Get notified when your favorite projects and software get updated.
 
+### Getting started
+
+To get started, clone this repo into your GOPATH and run `go install` from the root to create a basic stalker binary file.
+
+Stalker is (mostly) configuration driven so you probably won't get very far without a config.  By default, Stalker expects to find its configuration in `~/.stalker.json`.  There is a `config.json.example` in this repo that can be moved to the correct location to test some of the basic functionality.
+
+Once you have insatlled stalker and set up a configuration file simply run `stalker` from your terminal to get some basic help.
+
+One useful command to help get started is the `stalker print custom` command.  This command will print out a few sample repos and their tags.
+
+Additionally, you can run the help command for any subcommand to get a brief description of its functionality.
+
 ### Add some repo's
 
-To get started, move `config.json.example` to `config.json` and
-update it with some values to test.
+To get started, update `~/.stalker.json` with some values to test.
 
 ```json
 {
