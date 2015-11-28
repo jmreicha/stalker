@@ -8,10 +8,12 @@ import (
 )
 
 // Bolt DB settings
-var homedir = os.Getenv("HOME")
-var DBName string = homedir + "/version.db"
-var CustomProjectBucket string = "CustomProject"
-var StarredProjectBucket string = "StarredProject"
+var (
+	homedir       string = os.Getenv("HOME")
+	DBName        string = homedir + "/version.db"
+	CustomBucket  string = "CustomProject"
+	StarredBucket string = "StarredProject"
+)
 
 // UpdateCustomRepos reads in a configuration file, and writes projects and
 // their tags to BoltDB.
@@ -24,9 +26,9 @@ func UpdateCustomRepos() {
 	// Close DB
 	defer db.Close()
 
-	// Create "CustomProject" bucket
+	// Create "CustomProject" bucket if needed
 	db.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucket([]byte(CustomProjectBucket))
+		_, err := tx.CreateBucket([]byte(CustomBucket))
 		if err != nil {
 			return fmt.Errorf("create bucket: %s", err)
 		}
@@ -34,6 +36,8 @@ func UpdateCustomRepos() {
 	})
 
 	configuration := ReadConfig()
+	IsTokenSet()
+	var updateCount int
 
 	// Split user and project in order to parse them separately
 	for _, repo := range configuration.Repos {
@@ -45,13 +49,16 @@ func UpdateCustomRepos() {
 
 			// Write project to bucket
 			db.Update(func(tx *bolt.Tx) error {
-				b := tx.Bucket([]byte(CustomProjectBucket))
+				b := tx.Bucket([]byte(CustomBucket))
 				// key=project value=tag
 				err := b.Put([]byte(project), []byte(tag))
 				return err
 			})
 		}
+		updateCount++
 	}
+	// Indicate to what happened
+	fmt.Printf("%d Repo's updated\n", updateCount)
 }
 
 // IterateCustomRepos looks at what is in BoltDB and prints out the project and
@@ -68,7 +75,7 @@ func IterateCustomRepos() {
 
 	// Iterate over Projects
 	db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(CustomProjectBucket))
+		b := tx.Bucket([]byte(CustomBucket))
 		c := b.Cursor()
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
@@ -90,9 +97,9 @@ func UpdateStarredRepos() {
 	// Close DB
 	defer db.Close()
 
-	// Create "StarredProject" bucket
+	// Create "StarredProject" bucket if needed
 	db.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucket([]byte(StarredProjectBucket))
+		_, err := tx.CreateBucket([]byte(StarredBucket))
 		if err != nil {
 			return fmt.Errorf("create bucket: %s", err)
 		}
@@ -100,6 +107,8 @@ func UpdateStarredRepos() {
 	})
 
 	configuration := ReadConfig()
+	IsTokenSet()
+	var updateCount int
 
 	username := configuration.User
 	userRepos := GetStarredRepos(username)
@@ -113,12 +122,15 @@ func UpdateStarredRepos() {
 
 		// Write project
 		db.Update(func(tx *bolt.Tx) error {
-			b := tx.Bucket([]byte(StarredProjectBucket))
+			b := tx.Bucket([]byte(StarredBucket))
 			// key=project value=tag
 			err := b.Put([]byte(project), []byte(tag))
 			return err
 		})
+		updateCount++
 	}
+	// Indicate to what happened
+	fmt.Printf("%d Repo's updated\n", updateCount)
 }
 
 // IterateStarredRepos looks at what is in BoltDB and prints out the project and
@@ -135,7 +147,7 @@ func IterateStarredRepos() {
 
 	// Iterate over Projects
 	db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte(StarredProjectBucket))
+		b := tx.Bucket([]byte(StarredBucket))
 		c := b.Cursor()
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
