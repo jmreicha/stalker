@@ -47,9 +47,8 @@ func GetToken() string {
 
 	if token == "" {
 		return "empty"
-	} else {
-		return token
 	}
+	return token
 }
 
 // IsTokenSet is a helper function that tells you if you have a github auth token set.
@@ -63,13 +62,13 @@ func IsTokenSet() {
 
 	if token == "" {
 		warn("GITHUB AUTH TOKEN NOT SET\n\n")
-		fmt.Println("Skipping authenticaiton may create rate limiting issues\n")
+		fmt.Println("Skipping authenticaiton may create rate limiting issues")
 	} else {
 		tokenSet("GitHub auth token has been set\n\n")
 	}
 }
 
-// PrintStarredRepos tries to print tags of repo's that have been starred
+// PrintStarredRepos tries to print tags of repos that have been starred
 // according to the "user" configuration setting that is read from the config
 // file.
 func PrintStarredRepos() {
@@ -88,7 +87,7 @@ func PrintStarredRepos() {
 	}
 }
 
-// PrintFromConfig tries to print versions based on repo's that have been read
+// PrintFromConfig tries to print versions based on repos that have been read
 // in from a config file.
 func PrintFromConfig() {
 

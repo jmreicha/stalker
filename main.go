@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"fmt"
 	"github.com/codegangsta/cli"
 	"github.com/jmreicha/stalker/util"
 	"os"
@@ -32,11 +31,11 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:  "update",
-			Usage: "Update project repo's and tags in BoltDB",
+			Usage: "Update project repos and tags in BoltDB",
 			Subcommands: []cli.Command{
 				{
 					Name:  "starred",
-					Usage: "Update BoltDB starred repo's",
+					Usage: "Update BoltDB starred repos",
 					Action: func(c *cli.Context) {
 						util.UpdateStarredRepos()
 						// Test that DB gets updated
@@ -45,7 +44,7 @@ func main() {
 				},
 				{
 					Name:  "custom",
-					Usage: "Update BoltDB custom repo's",
+					Usage: "Update BoltDB custom repos",
 					Action: func(c *cli.Context) {
 						util.UpdateCustomRepos()
 						// Test that DB gets updated
@@ -56,11 +55,11 @@ func main() {
 		},
 		{
 			Name:  "print",
-			Usage: "Print project repo's and tags",
+			Usage: "Print project repos and tags",
 			Subcommands: []cli.Command{
 				{
 					Name:  "starred",
-					Usage: "Print starred repo's",
+					Usage: "Print starred repos",
 					Action: func(c *cli.Context) {
 						util.PrintStarredRepos()
 					},
@@ -74,16 +73,16 @@ func main() {
 				},
 				{
 					Name:  "custom-db",
-					Usage: "Print custom repo's from Bolt DB",
+					Usage: "Print custom repos from Bolt DB",
 					Action: func(c *cli.Context) {
-						//util.PrintFromConfig()
+						util.IterateCustomRepos()
 					},
 				},
 				{
 					Name:  "starred-db",
-					Usage: "Print starred repo's from Bolt DB",
+					Usage: "Print starred repos from Bolt DB",
 					Action: func(c *cli.Context) {
-						//util.PrintFromConfig()
+						util.IterateStarredRepos()
 					},
 				},
 			},
@@ -102,6 +101,5 @@ func main() {
 	RecentTags()						// Function to list paged results of recent tags
 	LatestTag("rancher", "rancher")		// Get the latest github tag for a project
 	LatestRelease("rancher", "rancher")	// Get the latest github release for a project
-	TestLatestTag("lukasz-madon", "awesome-remote-job")  //Case where there is no tag
 	*/
 }

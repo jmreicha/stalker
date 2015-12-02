@@ -9,15 +9,26 @@ import (
 
 // Bolt DB settings
 var (
-	homedir       string = os.Getenv("HOME")
-	DBName        string = homedir + "/version.db"
-	CustomBucket  string = "CustomProject"
-	StarredBucket string = "StarredProject"
+	homedir       = os.Getenv("HOME")
+	DBName        = homedir + "/version.db"
+	CustomBucket  = "CustomProject"
+	StarredBucket = "StarredProject"
 )
+
+func OpenDB(DBName string) {
+	// Open DB
+	db, err := bolt.Open(DBName, 0600, nil)
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+	}
+	// Close DB
+	defer db.Close()
+}
 
 // UpdateCustomRepos reads in a configuration file, and writes projects and
 // their tags to BoltDB.
-func UpdateCustomRepos() {
+func UpdateCustomRepos(DBName string) {
+
 	// Open DB
 	db, err := bolt.Open(DBName, 0600, nil)
 	if err != nil {
@@ -63,7 +74,7 @@ func UpdateCustomRepos() {
 
 // IterateCustomRepos looks at what is in BoltDB and prints out the project and
 // tag based on custom repo's that have been configured.
-func IterateCustomRepos() {
+func IterateCustomRepos(DBName string) {
 
 	// Open DB
 	db, err := bolt.Open(DBName, 0600, nil)
@@ -88,7 +99,7 @@ func IterateCustomRepos() {
 
 // UpdateStarredRepos reads starred repo's for a user and writes projects and
 // their tags to BoltDB.
-func UpdateStarredRepos() {
+func UpdateStarredRepos(DBName string) {
 	// Open DB
 	db, err := bolt.Open(DBName, 0600, nil)
 	if err != nil {

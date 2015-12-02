@@ -2,6 +2,10 @@
 *.o
 *.a
 *.so
+*.out
+
+# HTML
+*.html
 
 # Folders
 _obj
