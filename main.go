@@ -6,6 +6,12 @@ import (
 	"os"
 )
 
+// Global defaults
+var (
+	homedir = os.Getenv("HOME")
+	DBName  = homedir + "/version.db"
+)
+
 func main() {
 
 	// CLI Options
@@ -13,7 +19,7 @@ func main() {
 	app.Name = "Stalker"
 	app.Usage = "Get notified when your favorite projects are updated"
 	// This gets updated by hand
-	app.Version = "0.0.1"
+	app.Version = "0.1.0"
 
 	// Flags
 	app.Flags = []cli.Flag{
@@ -37,7 +43,7 @@ func main() {
 					Name:  "starred",
 					Usage: "Update BoltDB starred repos",
 					Action: func(c *cli.Context) {
-						util.UpdateStarredRepos()
+						util.UpdateStarredRepos(DBName)
 						// Test that DB gets updated
 						util.IterateStarredRepos()
 					},
@@ -46,9 +52,9 @@ func main() {
 					Name:  "custom",
 					Usage: "Update BoltDB custom repos",
 					Action: func(c *cli.Context) {
-						util.UpdateCustomRepos()
+						util.UpdateCustomRepos(DBName)
 						// Test that DB gets updated
-						util.IterateCustomRepos()
+						util.IterateCustomRepos(DBName)
 					},
 				},
 			},
@@ -75,7 +81,7 @@ func main() {
 					Name:  "custom-db",
 					Usage: "Print custom repos from Bolt DB",
 					Action: func(c *cli.Context) {
-						util.IterateCustomRepos()
+						util.IterateCustomRepos(DBName)
 					},
 				},
 				{
