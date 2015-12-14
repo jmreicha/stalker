@@ -14,7 +14,7 @@ One useful command to help get started is the `stalker print custom` command.  T
 
 Additionally, you can run the help command for any subcommand to get a brief description of its functionality.
 
-### Usage Example
+### Usage
 
 ```
 NAME:
