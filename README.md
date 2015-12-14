@@ -4,13 +4,13 @@ Get notified when your favorite projects and software get updated.
 
 ### Getting started
 
-To get started, clone this repo into your GOPATH and run `go install` from the root to create a basic stalker binary file.
+Clone this repo into your GOPATH and run `go install` from the root to create the stalker binary file.
 
 Stalker is (mostly) configuration driven so you probably won't get very far without a config.  By default, Stalker expects to find its configuration in `~/.stalker.json`.  There is a `config.json.example` in this repo that can be moved to the correct location to test some of the basic functionality.
 
-Once you have insatlled stalker and set up a configuration file simply run `stalker` from your terminal to get some basic help.
+Once you have insatlled stalker and set up a configuration file, simply run `stalker` from your terminal to get some basic usage output (as shown below).
 
-One useful command to help get started is the `stalker print custom` command.  This command will print out a few sample repos and their tags.
+One useful command to help users get started is the `stalker print custom` command.  This command will print out a few sample repos and their release tags.
 
 Additionally, you can run the help command for any subcommand to get a brief description of its functionality.
 
@@ -38,9 +38,9 @@ GLOBAL OPTIONS:
    --version, -v	print the version
 ```
 
-### Add some repo's
+### Add some repos
 
-To get started, update `~/.stalker.json` with some values to test.
+To add some repos, update `~/.stalker.json` with some values to test.
 
 ```json
 {
@@ -51,11 +51,11 @@ To get started, update `~/.stalker.json` with some values to test.
 }
 ```
 
-Add any repo's you'd like to follow to this section of the config file.
+Add any repos you'd like to follow to this section of the config file.
 
 ### Set up starred repo's
 
-There is an option to look at version of starred repo's, rather than reading directly from the configuration file.  To enable this option you will need to set a user in the `config.json` file.
+There is an option to look at versions of starred repos, rather than discovering them from the configuration file.  To enable this option you will need to set a user in the `config.json` file.
 
 ```json
 {
