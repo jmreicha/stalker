@@ -14,6 +14,30 @@ One useful command to help get started is the `stalker print custom` command.  T
 
 Additionally, you can run the help command for any subcommand to get a brief description of its functionality.
 
+### Usage Example
+
+```
+NAME:
+   Stalker - Get notified when your favorite projects are updated
+
+USAGE:
+   stalker [global options] command [command options] [arguments...]
+
+VERSION:
+   0.0.1
+
+COMMANDS:
+   update	Update project repos and tags in BoltDB
+   print	Print project repos and tags
+   help, h	Shows a list of commands or help for one command
+
+GLOBAL OPTIONS:
+   -c, --config-file	Specify an alternate config file
+   -d, --db		Specify an alternate DB location
+   --help, -h		show help
+   --version, -v	print the version
+```
+
 ### Add some repo's
 
 To get started, update `~/.stalker.json` with some values to test.
