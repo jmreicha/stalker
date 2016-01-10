@@ -14,7 +14,7 @@ var TOKEN = GetToken()
 func CreateClientConnection() *github.Client {
 	var client *github.Client
 	config := new(Configuration)
-	if config.Token == "empty" {
+	if config.Github.Token == "empty" {
 		client = github.NewClient(nil)
 		return client
 	} else {

@@ -18,8 +18,8 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "Stalker"
 	app.Usage = "Get notified when your favorite projects are updated"
-	// This gets updated by hand
-	app.Version = "0.1.0"
+	// This gets updated manaully
+	app.Version = "0.0.2"
 
 	// Flags
 	app.Flags = []cli.Flag{
@@ -102,6 +102,9 @@ func main() {
 	}
 
 	app.Run(os.Args)
+	/*
+		util.AlertNewProjectTag()
+	*/
 
 	/* Testing functions
 	RecentTags()						// Function to list paged results of recent tags

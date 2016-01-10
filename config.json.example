@@ -1,7 +1,0 @@
-{
-    "Repos": [
-        "github.com/docker/compose",
-        "github.com/docker/machine"
-    ],
-    "User": "jmreicha"
-}

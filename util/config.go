@@ -12,8 +12,19 @@ import (
 // external configuration file.
 type Configuration struct {
 	Repos []string
-	Token string
-	User  string
+
+	// Github entries
+	Github struct {
+		Token string
+		User  string
+	}
+
+	// Email nested entries
+	Email struct {
+		Server   string
+		Address  string
+		Password string
+	}
 }
 
 // ReadConfig is a helper function for reading in a configuration file.
@@ -43,7 +54,7 @@ func ReadConfig() *Configuration {
 func GetToken() string {
 
 	configuration := ReadConfig()
-	token := configuration.Token
+	token := configuration.Github.Token
 
 	if token == "" {
 		return "empty"
@@ -55,7 +66,7 @@ func GetToken() string {
 func IsTokenSet() {
 
 	configuration := ReadConfig()
-	token := configuration.Token
+	token := configuration.Github.Token
 
 	warn := color.New(color.FgYellow).PrintFunc()
 	tokenSet := color.New(color.FgGreen).PrintFunc()
@@ -75,7 +86,7 @@ func PrintStarredRepos() {
 
 	IsTokenSet()
 	configuration := ReadConfig()
-	username := configuration.User
+	username := configuration.Github.User
 	userRepos := GetStarredRepos(username)
 
 	for _, repo := range userRepos {

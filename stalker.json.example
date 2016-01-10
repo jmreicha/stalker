@@ -1,0 +1,13 @@
+{
+    "Repos": [
+        "github.com/docker/compose",
+        "github.com/docker/machine"
+    ],
+    Email: {
+        Server: "",
+        Address: "",
+        Password: ""
+    Github: {
+        "User": "jmreicha"
+    }
+}

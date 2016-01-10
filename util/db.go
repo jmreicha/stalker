@@ -15,31 +15,27 @@ var (
 	StarredBucket = "StarredProject"
 )
 
-func OpenDB(DBName string) {
+// OpenDB opens up a Bolt DB connection.
+func OpenDB(DBName string) *bolt.DB {
 	// Open DB
 	db, err := bolt.Open(DBName, 0600, nil)
 	if err != nil {
 		fmt.Printf("error: %v\n", err)
 	}
-	// Close DB
-	defer db.Close()
+	return db
 }
 
 // UpdateCustomRepos reads in a configuration file, and writes projects and
-// their tags to BoltDB.
+// their tags to BoltDB.  A message will be printed if a new tag has been added.
 func UpdateCustomRepos(DBName string) {
 
 	// Open DB
-	db, err := bolt.Open(DBName, 0600, nil)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-	}
-	// Close DB
+	db := OpenDB(DBName)
 	defer db.Close()
 
 	// Create "CustomProject" bucket if needed
 	db.Update(func(tx *bolt.Tx) error {
-		_, err := tx.CreateBucket([]byte(CustomBucket))
+		_, err := tx.CreateBucketIfNotExists([]byte(CustomBucket))
 		if err != nil {
 			return fmt.Errorf("create bucket: %s", err)
 		}
@@ -58,30 +54,40 @@ func UpdateCustomRepos(DBName string) {
 			project := repo[len(repo)-1]
 			tag, _ := LatestTag(user, project)
 
-			// Write project to bucket
+			// Write project to bucket if there is a new tag
 			db.Update(func(tx *bolt.Tx) error {
+				var err error
 				b := tx.Bucket([]byte(CustomBucket))
-				// key=project value=tag
-				err := b.Put([]byte(project), []byte(tag))
+				v := b.Get([]byte(project))
+				// Convert the tag to string for camparing
+				s := string(v)
+				// Check if the tag in the bucket is current
+				if s != tag {
+					// key=project value=tag
+					err = b.Put([]byte(project), []byte(tag))
+					fmt.Println(project + " has new tag " + tag)
+					// TODO
+					// If we have a new tag, call a function to alert/email a
+					// configured user of the project name, its tag and then go
+					// look if there is a Changelog or release notes and link to
+					// it in the email.
+					return err
+				}
 				return err
 			})
 		}
 		updateCount++
 	}
-	// Indicate to what happened
-	fmt.Printf("%d Repo's updated\n", updateCount)
+	// Indicate what happened
+	fmt.Printf("%d Repos updated\n", updateCount)
 }
 
 // IterateCustomRepos looks at what is in BoltDB and prints out the project and
-// tag based on custom repo's that have been configured.
+// tag based on custom repos that have been configured.
 func IterateCustomRepos(DBName string) {
 
 	// Open DB
-	db, err := bolt.Open(DBName, 0600, nil)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-	}
-	// Close DB
+	db := OpenDB(DBName)
 	defer db.Close()
 
 	// Iterate over Projects
@@ -100,12 +106,9 @@ func IterateCustomRepos(DBName string) {
 // UpdateStarredRepos reads starred repo's for a user and writes projects and
 // their tags to BoltDB.
 func UpdateStarredRepos(DBName string) {
+
 	// Open DB
-	db, err := bolt.Open(DBName, 0600, nil)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-	}
-	// Close DB
+	db := OpenDB(DBName)
 	defer db.Close()
 
 	// Create "StarredProject" bucket if needed
@@ -121,7 +124,7 @@ func UpdateStarredRepos(DBName string) {
 	IsTokenSet()
 	var updateCount int
 
-	username := configuration.User
+	username := configuration.Github.User
 	userRepos := GetStarredRepos(username)
 
 	// Split out user, project and tag
@@ -149,11 +152,7 @@ func UpdateStarredRepos(DBName string) {
 func IterateStarredRepos() {
 
 	// Open DB
-	db, err := bolt.Open(DBName, 0600, nil)
-	if err != nil {
-		fmt.Printf("error: %v\n", err)
-	}
-	// Close DB
+	db := OpenDB(DBName)
 	defer db.Close()
 
 	// Iterate over Projects
