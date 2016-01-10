@@ -8,6 +8,7 @@
         Address: "",
         Password: ""
     Github: {
-        "User": "jmreicha"
+        "User": "jmreicha",
+        "Token": ""
     }
 }
