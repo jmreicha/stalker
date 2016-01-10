@@ -6,7 +6,7 @@ Get notified when your favorite projects and software get updated.
 
 Clone this repo into your GOPATH and run `go install` from the root to create the stalker binary file.
 
-Stalker is (mostly) configuration driven so you probably won't get very far without a config.  By default, Stalker expects to find its configuration in `~/.stalker.json`.  There is a `config.json.example` in this repo that can be moved to the correct location to test some of the basic functionality.
+Stalker is (mostly) configuration driven so you probably won't get very far without a config.  By default, Stalker expects to find its configuration in `~/.stalker.json`.  There is a `stalker.json.example` in this repo that can be moved to the correct location to test some of the basic functionality.
 
 Once you have insatlled stalker and set up a configuration file, simply run `stalker` from your terminal to get some basic usage output (as shown below).
 
@@ -58,20 +58,20 @@ Add any repos you'd like to follow to this section of the config file.
 There is an option to look at versions of starred repos, rather than discovering them from the configuration file.  To enable this option you will need to set a user in the `config.json` file.
 
 ```json
-{
-  "User": "jmreicha"
-}
+  "Github": {
+      "User": "jmreicha"
+   }
 ```
 
 ### Use an auth token
 
-To avoid throttling issues you will need to add your own github auth token in
+To avoid throttling issues, IT IS HIGHLTY RECOMMENDED to add your own github auth token in
 the `Token:` section.
 
 ```json
-{
-  "Token": "xxx"
-}
+  "Github": {
+      "Token": "XXX"
+   }
 ```
 
 You can find more information about [GitHub access tokens here](https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
