@@ -8,7 +8,7 @@ Clone this repo into your GOPATH and run `go install` from the root to create th
 
 Stalker is (mostly) configuration driven so you probably won't get very far without a config.  By default, Stalker expects to find its configuration in `~/.stalker.json`.  There is a `stalker.json.example` in this repo that can be moved to the correct location to test some of the basic functionality.
 
-Once you have insatlled stalker and set up a configuration file, simply run `stalker` from your terminal to get some basic usage output (as shown below).
+After you have installed Stalker and set up a configuration file, simply run the `stalker` command from your terminal to get some basic usage options (as shown below).
 
 One useful command to help users get started is the `stalker print custom` command.  This command will print out a few sample repos and their release tags.
 
