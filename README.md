@@ -24,16 +24,16 @@ USAGE:
    stalker [global options] command [command options] [arguments...]
 
 VERSION:
-   0.0.1
+   0.0.2
 
 COMMANDS:
-   update	Update project repos and tags in BoltDB
+   update	Update project repos in BoltDB and email new tags
    print	Print project repos and tags
    help, h	Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   -c, --config-file	Specify an alternate config file
-   -d, --db		Specify an alternate DB location
+   -c, --config-file	Specify an alternate config file (not working yet)
+   -d, --db		Specify an alternate DB location (not working yet)
    --help, -h		show help
    --version, -v	print the version
 ```
@@ -84,7 +84,7 @@ and 5000 authed requests per hour.
 
 This is a handy feature for receiving emails when Stalker detects a new Github version.
 
-If you use Gmail update the `~/.stalker.json` configuration to use your Gmail credentials
+For Gmail, update the `~/.stalker.json` configuration to use your Gmail credentials.
 
 ```json
    "Email": {
@@ -94,7 +94,7 @@ If you use Gmail update the `~/.stalker.json` configuration to use your Gmail cr
    }
 ```
 
-NOTE: If you use 2FA with your email account, follow [these instructions](https://support.google.com/accounts/answer/185833) to generate your "app" password.
+**NOTE:** If you use 2FA with your email account, follow [these instructions](https://support.google.com/accounts/answer/185833) to generate your "app" password.
 
 ### Troubleshooting
 
