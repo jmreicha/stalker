@@ -79,3 +79,29 @@ You can find more information about [GitHub access tokens here](https://help.git
 **NOTE:** The Github auth token isn't a requirement but Github will throttle unauthenticted requests which can
 cause problems running this tool.  GitHub allows 60 unauthed requests per hour
 and 5000 authed requests per hour.
+
+### Configure Stalker to send email
+
+This is a handy feature for receiving emails when Stalker detects a new Github version.
+
+If you use Gmail update the `~/.stalker.json` configuration to use your Gmail credentials
+
+```json
+   "Email": {
+      "Server": "smtp.gmail.com",
+      "Address": "your-email@gmail.com",
+      "Password": "XXX"
+   }
+```
+
+NOTE: If you use 2FA with your email account, follow [these instructions](https://support.google.com/accounts/answer/185833) to generate your "app" password.
+
+### Troubleshooting
+
+ * You receive `error: GET https://api.github.com/users/jmreicha/starred: 401 Bad credentials []`.
+
+Check your `~/.stalker.json` configuration.  Either the "Github Token" is not set or it not valid.
+
+ * You receive `ERROR attempting to send mail: 535 5.7.8 Username and Password not accepted.`.
+
+Check your `~/.stalker.json` configuration.  The "Email Password" is invalid or if you have 2FA turned on then you are using the incorrect password.
