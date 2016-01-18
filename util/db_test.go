@@ -27,24 +27,24 @@ func TestOpenDB(t *testing.T) {
 
 // TestUpdateCustomRepos tries to update Bolt with values from a custom
 // configuration.
-func TestUpdateCustomRepos(t *testing.T) {
-	UpdateCustomRepos(TestDBName)
-}
+//func TestUpdateCustomRepos(t *testing.T) {
+//	UpdateCustomRepos(TestDBName)
+//}
 
 // TestIterateCustomRepos tries to print custom configured values that have been
 // written to BoltDB.
-func TestIterateCustomRepos(t *testing.T) {
-	IterateCustomRepos(TestDBName)
-}
+//func TestIterateCustomRepos(t *testing.T) {
+//	IterateCustomRepos(TestDBName)
+//}
 
 // TestUpdateStarredRepos tries to update Bolt with values for a specific github
 // user, based on custom configuration.
-func TestUpdateStarredRepos(t *testing.T) {
-	UpdateStarredRepos(TestDBName)
-}
+//func TestUpdateStarredRepos(t *testing.T) {
+//	UpdateStarredRepos(TestDBName)
+//}
 
 // TestIterateStarredRepos trieso to print values from Bolt for a specific
 // github user, based on custom configuration.
-func TestIterateStarredRepos(t *testing.T) {
-	IterateStarredRepos()
-}
+//func TestIterateStarredRepos(t *testing.T) {
+//	IterateStarredRepos()
+//}

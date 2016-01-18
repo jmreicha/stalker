@@ -44,7 +44,10 @@ func UpdateCustomRepos(DBName string) {
 
 	configuration := ReadConfig()
 	IsTokenSet()
+	// Count the new tags
 	var updateCount int
+	// Storing the  new tags
+	var new_tags []string
 
 	// Split user and project in order to parse them separately
 	for _, repo := range configuration.Repos {
@@ -61,25 +64,28 @@ func UpdateCustomRepos(DBName string) {
 				v := b.Get([]byte(project))
 				// Convert the tag to string for camparing
 				s := string(v)
-				// Check if the tag in the bucket is current
+				// Check if the tag in the bucket is current, update if not
 				if s != tag {
 					// key=project value=tag
 					err = b.Put([]byte(project), []byte(tag))
 					fmt.Println(project + " has new tag " + tag)
-					// TODO
-					// If we have a new tag, call a function to alert/email a
-					// configured user of the project name, its tag and then go
-					// look if there is a Changelog or release notes and link to
-					// it in the email.
+					// TODO print old project tag and also get release notes or
+					// changelog info
+					new_tags = append(new_tags, project+": "+tag)
+					updateCount++
 					return err
 				}
 				return err
 			})
 		}
-		updateCount++
 	}
-	// Indicate what happened
+	// Tally number of updated repos
 	fmt.Printf("%d Repos updated\n", updateCount)
+	// If there is a new tag (new_tags not empty), call the alert function to
+	// email the project name with the new tag
+	if len(new_tags) > 0 {
+		AlertNewProjectTag(new_tags)
+	}
 }
 
 // IterateCustomRepos looks at what is in BoltDB and prints out the project and
@@ -122,7 +128,10 @@ func UpdateStarredRepos(DBName string) {
 
 	configuration := ReadConfig()
 	IsTokenSet()
+	// Count the new tags
 	var updateCount int
+	// Storing the  new tags
+	var new_tags []string
 
 	username := configuration.Github.User
 	userRepos := GetStarredRepos(username)
@@ -134,17 +143,34 @@ func UpdateStarredRepos(DBName string) {
 		project := repo[len(repo)-1]
 		tag, _ := LatestTag(user, project)
 
-		// Write project
+		// Write project to bucket if there is a new tag
 		db.Update(func(tx *bolt.Tx) error {
+			var err error
 			b := tx.Bucket([]byte(StarredBucket))
-			// key=project value=tag
-			err := b.Put([]byte(project), []byte(tag))
+			v := b.Get([]byte(project))
+			// Convert the tag to string for camparing
+			s := string(v)
+			// Check if the tag in the bucket is current
+			if s != tag {
+				// key=project value=tag
+				err = b.Put([]byte(project), []byte(tag))
+				fmt.Println(project + " has new tag " + tag)
+				// TODO print old project tag and also get release notes or
+				// changelog info
+				new_tags = append(new_tags, project+": "+tag)
+				updateCount++
+				return err
+			}
 			return err
 		})
-		updateCount++
 	}
-	// Indicate to what happened
-	fmt.Printf("%d Repo's updated\n", updateCount)
+	// Tally number of updated repos
+	fmt.Printf("%d Repos updated\n", updateCount)
+	// If there is a new tag (new_tags not empty), call the alert function to
+	// email the project name with the new tag
+	if len(new_tags) > 0 {
+		AlertNewProjectTag(new_tags)
+	}
 }
 
 // IterateStarredRepos looks at what is in BoltDB and prints out the project and

@@ -25,11 +25,11 @@ func main() {
 	app.Flags = []cli.Flag{
 		cli.BoolFlag{
 			Name:  "c, config-file",
-			Usage: "Specify an alternate config file",
+			Usage: "Specify an alternate config file (not working yet)",
 		},
 		cli.BoolFlag{
 			Name:  "d, db",
-			Usage: "Specify an alternate DB location",
+			Usage: "Specify an alternate DB location (not working yet)",
 		},
 	}
 
@@ -37,24 +37,24 @@ func main() {
 	app.Commands = []cli.Command{
 		{
 			Name:  "update",
-			Usage: "Update project repos and tags in BoltDB",
+			Usage: "Update project repos in BoltDB and email new tags",
 			Subcommands: []cli.Command{
 				{
 					Name:  "starred",
-					Usage: "Update BoltDB starred repos",
+					Usage: "Update and email BoltDB starred repos",
 					Action: func(c *cli.Context) {
 						util.UpdateStarredRepos(DBName)
 						// Test that DB gets updated
-						util.IterateStarredRepos()
+						//util.IterateStarredRepos()
 					},
 				},
 				{
 					Name:  "custom",
-					Usage: "Update BoltDB custom repos",
+					Usage: "Update and email BoltDB custom repos",
 					Action: func(c *cli.Context) {
 						util.UpdateCustomRepos(DBName)
 						// Test that DB gets updated
-						util.IterateCustomRepos(DBName)
+						//util.IterateCustomRepos(DBName)
 					},
 				},
 			},
@@ -77,9 +77,10 @@ func main() {
 						util.PrintFromConfig()
 					},
 				},
+
 				{
 					Name:  "custom-db",
-					Usage: "Print custom repos from Bolt DB",
+					Usage: "Print previously stored custom repos from Bolt DB",
 					Action: func(c *cli.Context) {
 						util.IterateCustomRepos(DBName)
 					},
@@ -102,13 +103,4 @@ func main() {
 	}
 
 	app.Run(os.Args)
-	/*
-		util.AlertNewProjectTag()
-	*/
-
-	/* Testing functions
-	RecentTags()						// Function to list paged results of recent tags
-	LatestTag("rancher", "rancher")		// Get the latest github tag for a project
-	LatestRelease("rancher", "rancher")	// Get the latest github release for a project
-	*/
 }
