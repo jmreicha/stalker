@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"github.com/boltdb/bolt"
+	"github.com/fatih/color"
 	"os"
 	"strings"
 )
@@ -33,6 +34,10 @@ func UpdateCustomRepos(DBName string) {
 	db := OpenDB(DBName)
 	defer db.Close()
 
+	// Color output
+	old_tag_color := color.New(color.FgYellow).SprintFunc()
+	new_tag_color := color.New(color.FgCyan).SprintFunc()
+
 	// Create "CustomProject" bucket if needed
 	db.Update(func(tx *bolt.Tx) error {
 		_, err := tx.CreateBucketIfNotExists([]byte(CustomBucket))
@@ -46,7 +51,7 @@ func UpdateCustomRepos(DBName string) {
 	IsTokenSet()
 	// Count the new tags
 	var updateCount int
-	// Storing the  new tags
+	// Store the new tags
 	var new_tags []string
 
 	// Split user and project in order to parse them separately
@@ -55,7 +60,7 @@ func UpdateCustomRepos(DBName string) {
 		if repo[0] == "github.com" {
 			user := repo[len(repo)-2]
 			project := repo[len(repo)-1]
-			tag, _ := LatestTag(user, project)
+			new_tag, _ := LatestTag(user, project)
 
 			// Write project to bucket if there is a new tag
 			db.Update(func(tx *bolt.Tx) error {
@@ -63,15 +68,15 @@ func UpdateCustomRepos(DBName string) {
 				b := tx.Bucket([]byte(CustomBucket))
 				v := b.Get([]byte(project))
 				// Convert the tag to string for camparing
-				s := string(v)
+				old_tag := string(v)
 				// Check if the tag in the bucket is current, update if not
-				if s != tag {
-					// key=project value=tag
-					err = b.Put([]byte(project), []byte(tag))
-					fmt.Println(project + " has new tag " + tag)
-					// TODO print old project tag and also get release notes or
-					// changelog info
-					new_tags = append(new_tags, project+": "+tag)
+				if new_tag != old_tag {
+					err = b.Put([]byte(project), []byte(new_tag))
+					// Color tags
+					fmt.Printf("%s: %s %s \n",
+						project, new_tag_color(new_tag), old_tag_color("(was "+old_tag+")"))
+					// TODO Get release notes and/or changelog info
+					new_tags = append(new_tags, project+": "+new_tag)
 					updateCount++
 					return err
 				}
@@ -117,6 +122,10 @@ func UpdateStarredRepos(DBName string) {
 	db := OpenDB(DBName)
 	defer db.Close()
 
+	// Color output
+	old_tag_color := color.New(color.FgYellow).SprintFunc()
+	new_tag_color := color.New(color.FgCyan).SprintFunc()
+
 	// Create "StarredProject" bucket if needed
 	db.Update(func(tx *bolt.Tx) error {
 		_, err := tx.CreateBucket([]byte(StarredBucket))
@@ -141,7 +150,7 @@ func UpdateStarredRepos(DBName string) {
 		repo := strings.Split(repo, "/")
 		user := repo[len(repo)-2]
 		project := repo[len(repo)-1]
-		tag, _ := LatestTag(user, project)
+		new_tag, _ := LatestTag(user, project)
 
 		// Write project to bucket if there is a new tag
 		db.Update(func(tx *bolt.Tx) error {
@@ -149,15 +158,16 @@ func UpdateStarredRepos(DBName string) {
 			b := tx.Bucket([]byte(StarredBucket))
 			v := b.Get([]byte(project))
 			// Convert the tag to string for camparing
-			s := string(v)
+			old_tag := string(v)
 			// Check if the tag in the bucket is current
-			if s != tag {
+			if new_tag != old_tag {
 				// key=project value=tag
-				err = b.Put([]byte(project), []byte(tag))
-				fmt.Println(project + " has new tag " + tag)
-				// TODO print old project tag and also get release notes or
-				// changelog info
-				new_tags = append(new_tags, project+": "+tag)
+				err = b.Put([]byte(project), []byte(new_tag))
+				// Color tags
+				fmt.Printf("%s: %s %s \n",
+					project, new_tag_color(new_tag), old_tag_color("(was "+old_tag+")"))
+				// TODO Get release notes and/or changelog info
+				new_tags = append(new_tags, project+": "+new_tag)
 				updateCount++
 				return err
 			}
