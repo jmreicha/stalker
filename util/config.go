@@ -77,6 +77,7 @@ func IsTokenSet() {
 	} else {
 		tokenSet("GitHub auth token has been set\n\n")
 	}
+	fmt.Println("Printing repos with recently updated tags\n")
 }
 
 // PrintStarredRepos tries to print tags of repos that have been starred
